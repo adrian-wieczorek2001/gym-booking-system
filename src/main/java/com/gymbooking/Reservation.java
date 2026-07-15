@@ -2,17 +2,17 @@ package com.gymbooking;
 
 public class Reservation {
     private int id;
-    private String customerName;
+    private Member member;
     private String dateTime;
 
-    public Reservation(int id, String customerName, String dateTime) {
+    public Reservation(int id, Member member, String dateTime) {
         this.id = id;
-        this.customerName = customerName;
+        this.member = member;
         this.dateTime = dateTime;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public Member getMember() {
+        return member;
     }
 
     public int getId() {
