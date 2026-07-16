@@ -17,6 +17,14 @@ public class GymBookingService {
         return reservations;
     }
 
+    public void removeReservation(int id) {
+        for (int i = 0; i < reservations.size(); i++) {
+            if (reservations.get(i).getId() == id) {
+                reservations.remove(i);
+            }
+        }
+    }
+
 
 
 }

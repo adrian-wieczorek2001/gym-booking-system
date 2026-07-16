@@ -23,4 +23,9 @@ public class Reservation {
         return dateTime;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Member: " + member.getName() + ", Date: " + dateTime;
+    }
+
 }
