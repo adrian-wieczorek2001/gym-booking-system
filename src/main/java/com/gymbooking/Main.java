@@ -35,5 +35,10 @@ public class Main {
             System.out.println(reservation);
         }
 
+        for (Reservation reservation : reservations.findReservationsByMember("Adrian")) {
+            System.out.println(reservation);
+        }
+
+
     }
 }
