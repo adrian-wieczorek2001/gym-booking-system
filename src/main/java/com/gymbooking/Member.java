@@ -3,9 +3,9 @@ package com.gymbooking;
 public class Member {
     private String name;
     private int age;
-    private String membershipType;
+    private MembershipType membershipType;
 
-    public Member(String name, int age, String membershipType) {
+    public Member(String name, int age, MembershipType membershipType) {
         this.name = name;
         this.age = age;
         this.membershipType = membershipType;
@@ -19,7 +19,7 @@ public class Member {
         return age;
     }
 
-    public String getMembershipType() {
+    public MembershipType getMembershipType() {
         return membershipType;
     }
 }

@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Member member1 = new Member("Adrian", 24, null);
-        Member member2 = new Member("Bartosz", 22, null);
+        Member member1 = new Member("Adrian", 24, MembershipType.ANNUAL);
+        Member member2 = new Member("Bartosz", 22, MembershipType.QUARTERLY);
         Reservation reservation1 = new Reservation(1, member1, "15.07.2026");
         Reservation reservation2 = new Reservation(2, member2, "16.07.2026");
 
