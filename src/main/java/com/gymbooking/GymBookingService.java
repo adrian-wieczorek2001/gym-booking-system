@@ -9,13 +9,29 @@ public class GymBookingService {
         this.reservations = new ArrayList<>();
     }
 
+    /**
+     * Adds a reservation to the list.
+     * @param reservation the reservation object to be added to the list
+     */
+
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
     }
 
+    /**
+     * Returns all reservations from the list.
+     * @return list of all reservations
+     */
+
     public ArrayList<Reservation> getAllReservations() {
         return reservations;
     }
+
+
+    /**
+     * Removes a reservation from the list
+     * @param id the id of the reservation to be removed
+     */
 
     public void removeReservation(int id) {
 
@@ -34,6 +50,12 @@ public class GymBookingService {
         }
     }
 
+    /**
+     * Finds all reservations for a given member
+     * @param memberName the name of the member
+     * @return list of reservations belonging to the member
+     */
+
     public ArrayList<Reservation> findReservationsByMember(String memberName) {
 
         ArrayList<Reservation> newReservationList = new ArrayList<>();
@@ -46,7 +68,5 @@ public class GymBookingService {
 
         return newReservationList;
     }
-
-
 
 }
