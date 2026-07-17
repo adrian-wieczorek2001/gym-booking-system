@@ -1,6 +1,7 @@
 package com.gymbooking;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -27,9 +28,16 @@ public class Main {
         }
 
         System.out.println("Delete reservation: (give id) ");
-        int number = scanner.nextInt();
-
-        reservations.removeReservation(number);
+        while (true) {
+            try {
+                int number = scanner.nextInt();
+                reservations.removeReservation(number);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong! Please, try again! Give an id of reservation to delete: ");
+                scanner.nextLine();
+            }
+        }
 
         for (Reservation reservation : reservations.getAllReservations()) {
             System.out.println(reservation);
