@@ -5,48 +5,91 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
 
-        Member member1 = new Member("Adrian", 24, MembershipType.ANNUAL);
-        Member member2 = new Member("Bartosz", 22, MembershipType.QUARTERLY);
-        Reservation reservation1 = new Reservation(1, member1, "15.07.2026");
-        Reservation reservation2 = new Reservation(2, member2, "16.07.2026");
+    private static void showMenu(GymBookingService gymBookingService, Scanner scanner) {
 
-        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
 
-        System.out.println(reservation1.getMember().getName());
-
-        GymBookingService reservations = new GymBookingService();
-
-        reservations.addReservation(reservation1);
-        reservations.addReservation(reservation2);
-
-        for (Reservation reservation : reservations.getAllReservations()) {
-            System.out.println(reservation.getId());
-            System.out.println(reservation.getMember().getName());
-            System.out.println(reservation.getDateTime());
-        }
-
-        System.out.println("Delete reservation: (give id) ");
         while (true) {
             try {
-                int number = scanner.nextInt();
-                reservations.removeReservation(number);
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Wrong! Please, try again! Give an id of reservation to delete: ");
+                System.out.println("What would you like to do: " +
+                        "\n1. Add reservations" +
+                        "\n2. Show all reservation" +
+                        "\n3. Delete reservation" +
+                        "\n4. Find reservations by member name" +
+                        "\n5. Exit");
+                choice = scanner.nextInt();
                 scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong number! Please, try again!");
+                scanner.nextLine();
+                continue;
+            }
+
+            switch (choice) {
+                case 1: {
+
+                    System.out.println("Type a name of member: ");
+                    String name = scanner.nextLine();
+
+                    MembershipType membershipType = null;
+
+                    while (membershipType == null) {
+                        System.out.println("Enter a membership type: ");
+                        String input = scanner.next();
+
+                        try {
+                            membershipType = MembershipType.valueOf(input.toUpperCase());
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Wrong type of membership. Please, try again!");
+                        }
+                    }
+
+                    int age = 0;
+
+                    System.out.println("Enter member age:  ");
+                    while (age == 0) {
+                        try {
+                            age = scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("It's not correct age. Please, try again!");
+                            scanner.nextLine();
+                        }
+                    }
+
+                    Member member = new Member(name, age, membershipType);
+
+
+                    int id = 0;
+
+                    System.out.println("Enter a ID of reservation: ");
+                    while (id == 0) {
+                        try {
+                            id = scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("It's not correct form for ID. Please, use number!");
+                            scanner.nextLine();
+                        }
+                    }
+
+                    System.out.println("Enter a date for a reservation: ");
+                    String dateTime = scanner.next();
+
+                    Reservation reservation = new Reservation(id, member, dateTime);
+
+                    gymBookingService.addReservation(reservation);
+                    break;
+
+                }
             }
         }
+    }
 
-        for (Reservation reservation : reservations.getAllReservations()) {
-            System.out.println(reservation);
-        }
+    public static void main(String[] args) {
 
-        for (Reservation reservation : reservations.findReservationsByMember("Adrian")) {
-            System.out.println(reservation);
-        }
-
+        Scanner scanner = new Scanner(System.in);
+        GymBookingService gymBookingService = new GymBookingService();
+        showMenu(gymBookingService, scanner);
 
     }
 }
