@@ -7,6 +7,60 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static Member createMember(Scanner scanner) {
+
+        System.out.println("Type a name of member: ");
+        String name = scanner.nextLine();
+
+        MembershipType membershipType = null;
+
+        while (membershipType == null) {
+            System.out.println("Enter a membership type: ");
+            String input = scanner.next();
+
+            try {
+                membershipType = MembershipType.valueOf(input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Wrong type of membership. Please, try again!");
+            }
+        }
+
+        int age = 0;
+
+        System.out.println("Enter member age:  ");
+        while (age == 0) {
+            try {
+                age = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("It's not correct age. Please, try again!");
+                scanner.nextLine();
+            }
+        }
+
+        Member member = new Member(name, age, membershipType);
+        return member;
+    }
+
+    private static Reservation createReservation(Scanner scanner, Member member) {
+        int id = 0;
+
+        System.out.println("Enter a ID of reservation: ");
+        while (id == 0) {
+            try {
+                id = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("It's not correct form for ID. Please, use number!");
+                scanner.nextLine();
+            }
+        }
+
+        System.out.println("Enter a date for a reservation: ");
+        String dateTime = scanner.next();
+
+        Reservation reservation = new Reservation(id, member, dateTime);
+        return reservation;
+    }
+
     private static void showMenu(GymBookingService gymBookingService, Scanner scanner) {
 
         int choice = 0;
@@ -28,59 +82,14 @@ public class Main {
             }
 
             switch (choice) {
+
                 case 1: {
 
-                    System.out.println("Type a name of member: ");
-                    String name = scanner.nextLine();
-
-                    MembershipType membershipType = null;
-
-                    while (membershipType == null) {
-                        System.out.println("Enter a membership type: ");
-                        String input = scanner.next();
-
-                        try {
-                            membershipType = MembershipType.valueOf(input.toUpperCase());
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Wrong type of membership. Please, try again!");
-                        }
-                    }
-
-                    int age = 0;
-
-                    System.out.println("Enter member age:  ");
-                    while (age == 0) {
-                        try {
-                            age = scanner.nextInt();
-                        } catch (InputMismatchException e) {
-                            System.out.println("It's not correct age. Please, try again!");
-                            scanner.nextLine();
-                        }
-                    }
-
-                    Member member = new Member(name, age, membershipType);
-
-
-                    int id = 0;
-
-                    System.out.println("Enter a ID of reservation: ");
-                    while (id == 0) {
-                        try {
-                            id = scanner.nextInt();
-                        } catch (InputMismatchException e) {
-                            System.out.println("It's not correct form for ID. Please, use number!");
-                            scanner.nextLine();
-                        }
-                    }
-
-                    System.out.println("Enter a date for a reservation: ");
-                    String dateTime = scanner.next();
-
-                    Reservation reservation = new Reservation(id, member, dateTime);
+                    Member member = createMember(scanner);
+                    Reservation reservation = createReservation(scanner, member);
 
                     gymBookingService.addReservation(reservation);
                     break;
-
                 }
 
                 case 2:
