@@ -1,9 +1,11 @@
 package com.gymbooking;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GymBookingService {
     private ArrayList<Reservation> reservations;
+    private int nextId = 1;
 
     public GymBookingService() {
         this.reservations = new ArrayList<>();
@@ -11,12 +13,17 @@ public class GymBookingService {
 
 
     /**
-     * Adds a reservation to the list.
-     * @param reservation the reservation object to be added to the list
+     * Adds a reservation to the list with an automatically generated id.
+     *  @param member the member making the reservation
+     *  @param dateTime the date of the reservation
      */
-    public void addReservation(Reservation reservation) {
+    public void addReservation(Member member, LocalDate dateTime) {
+
+        Reservation reservation = new Reservation(nextId, member, dateTime);
         reservations.add(reservation);
+        nextId++;
     }
+
 
     /**
      * Returns all reservations from the list.

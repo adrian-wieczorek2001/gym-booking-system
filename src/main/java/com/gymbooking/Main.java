@@ -76,35 +76,6 @@ public class Main {
         }
     }
 
-    private static Reservation createReservation(Scanner scanner, Member member) {
-        int id = 0;
-
-        System.out.println("Enter a ID of reservation: ");
-        while (id == 0) {
-            try {
-                id = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("It's not correct form for ID. Please, use number!");
-                scanner.nextLine();
-            }
-        }
-
-        LocalDate dateTime = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-        while (dateTime == null) {
-            try {
-                System.out.println("Enter a date for a reservation (dd.mm.yyyy): ");
-                dateTime = LocalDate.parse(scanner.next(), formatter);
-            } catch (DateTimeParseException e) {
-                System.out.println("It's not a date format. please, try again!");
-            }
-        }
-
-        Reservation reservation = new Reservation(id, member, dateTime);
-        return reservation;
-    }
-
     private static void showMenu(GymBookingService gymBookingService, Scanner scanner) {
 
         int choice = 0;
@@ -130,9 +101,20 @@ public class Main {
                 case 1: {
 
                     Member member = createMember(scanner);
-                    Reservation reservation = createReservation(scanner, member);
 
-                    gymBookingService.addReservation(reservation);
+                    LocalDate dateTime = null;
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+                    while (dateTime == null) {
+                        try {
+                            System.out.println("Enter a date for a reservation (dd.mm.yyyy): ");
+                            dateTime = LocalDate.parse(scanner.next(), formatter);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("It's not a date format. please, try again!");
+                        }
+                    }
+
+                    gymBookingService.addReservation(member, dateTime);
                     break;
                 }
 
