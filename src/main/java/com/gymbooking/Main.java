@@ -9,36 +9,68 @@ public class Main {
 
     private static Member createMember(Scanner scanner) {
 
-        System.out.println("Type a name of member: ");
-        String name = scanner.nextLine();
+        while (true) {
 
-        MembershipType membershipType = null;
+            String name = null;
 
-        while (membershipType == null) {
-            System.out.println("Enter a membership type: ");
-            String input = scanner.next();
+            while (name == null) {
+
+                try {
+                    System.out.println("Type a name of member: ");
+                    name = scanner.nextLine();
+
+                    if (name.isEmpty() || !name.matches("[a-zA-Z ]+")) {
+                        System.out.println("Name must contain letters only");
+                        name = null;
+                    }
+
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+
+
+            }
+
+            MembershipType membershipType = null;
+
+            while (membershipType == null) {
+                System.out.println("Enter a membership type: ");
+                String input = scanner.next();
+
+                try {
+                    membershipType = MembershipType.valueOf(input.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Wrong type of membership. Please, try again!");
+                }
+            }
+
+            int age = 0;
+
+            System.out.println("Enter member age:  ");
+            while (age < 15) {
+                try {
+                    age = scanner.nextInt();
+
+                    if (age < 15) {
+                        System.out.println("Age cannot be less than 15");
+                        age = 0;
+                    }
+
+                } catch (InputMismatchException e) {
+                    System.out.println("It's not correct age. Please, try again!");
+                    scanner.nextLine();
+                }
+            }
+
+            scanner.nextLine();
 
             try {
-                membershipType = MembershipType.valueOf(input.toUpperCase());
+                return new Member(name, age, membershipType);
             } catch (IllegalArgumentException e) {
-                System.out.println("Wrong type of membership. Please, try again!");
+                System.out.println(e.getMessage());
+                System.out.println("Please, try again!");
             }
         }
-
-        int age = 0;
-
-        System.out.println("Enter member age:  ");
-        while (age == 0) {
-            try {
-                age = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("It's not correct age. Please, try again!");
-                scanner.nextLine();
-            }
-        }
-
-        Member member = new Member(name, age, membershipType);
-        return member;
     }
 
     private static Reservation createReservation(Scanner scanner, Member member) {
