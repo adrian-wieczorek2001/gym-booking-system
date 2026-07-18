@@ -19,7 +19,13 @@ public class GymBookingService {
      */
     public void addReservation(Member member, LocalDate dateTime) {
 
+        if (dateTime.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("You cannot make a reservation for a date in the past. " +
+                    "Please, enter correct date");
+        }
+
         Reservation reservation = new Reservation(nextId, member, dateTime);
+
         reservations.add(reservation);
         nextId++;
     }

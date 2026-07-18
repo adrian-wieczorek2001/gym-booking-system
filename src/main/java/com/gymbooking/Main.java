@@ -102,19 +102,26 @@ public class Main {
 
                     Member member = createMember(scanner);
 
-                    LocalDate dateTime = null;
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                    while (true) {
+                        LocalDate dateTime = null;
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-                    while (dateTime == null) {
+                        while (dateTime == null) {
+                            try {
+                                System.out.println("Enter a date for a reservation (dd.mm.yyyy): ");
+                                dateTime = LocalDate.parse(scanner.next(), formatter);
+                            } catch (DateTimeParseException e) {
+                                System.out.println("It's not a date format. please, try again!");
+                            }
+                        }
+
                         try {
-                            System.out.println("Enter a date for a reservation (dd.mm.yyyy): ");
-                            dateTime = LocalDate.parse(scanner.next(), formatter);
-                        } catch (DateTimeParseException e) {
-                            System.out.println("It's not a date format. please, try again!");
+                            gymBookingService.addReservation(member, dateTime);
+                            break;
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
                         }
                     }
-
-                    gymBookingService.addReservation(member, dateTime);
                     break;
                 }
 
