@@ -2,6 +2,7 @@ package com.gymbooking;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -81,6 +82,47 @@ public class Main {
                     break;
 
                 }
+
+                case 2:
+                    System.out.println("All reservations: ");
+
+                    for (Reservation reservation : gymBookingService.getAllReservations()) {
+                        System.out.println(reservation);
+                    }
+
+                    break;
+
+                case 3: {
+
+                    int id = 0;
+
+                    System.out.println("Enter a ID of reservation: ");
+                    while (id == 0) {
+                        try {
+                            id = scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("It's not correct form for ID. Please, use number!");
+                            scanner.nextLine();
+                        }
+                    }
+
+                    gymBookingService.removeReservation(id);
+                    break;
+                }
+
+                case 4:
+                    System.out.println("Please, enter a member to show list of reservation: ");
+                    String memberName = scanner.nextLine();
+                    System.out.println("Your reservations: ");
+                    for (Reservation reservation : gymBookingService.findReservationsByMember(memberName)) {
+                        System.out.println(reservation);
+                    };
+                    break;
+
+                case 5:
+                    System.out.println("Ending of program...");
+                    System.exit(0);
+
             }
         }
     }
