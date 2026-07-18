@@ -1,5 +1,8 @@
 package com.gymbooking;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -86,8 +89,17 @@ public class Main {
             }
         }
 
-        System.out.println("Enter a date for a reservation: ");
-        String dateTime = scanner.next();
+        LocalDate dateTime = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        while (dateTime == null) {
+            try {
+                System.out.println("Enter a date for a reservation (dd.mm.yyyy): ");
+                dateTime = LocalDate.parse(scanner.next(), formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("It's not a date format. please, try again!");
+            }
+        }
 
         Reservation reservation = new Reservation(id, member, dateTime);
         return reservation;

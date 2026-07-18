@@ -1,11 +1,13 @@
 package com.gymbooking;
 
+import java.time.LocalDate;
+
 public class Reservation {
     private int id;
     private Member member;
-    private String dateTime;
+    private LocalDate dateTime;
 
-    public Reservation(int id, Member member, String dateTime) {
+    public Reservation(int id, Member member, LocalDate dateTime) {
         this.id = id;
         this.member = member;
         this.dateTime = dateTime;
@@ -19,7 +21,7 @@ public class Reservation {
         return id;
     }
 
-    public String getDateTime() {
+    public LocalDate getDateTime() {
         return dateTime;
     }
 
