@@ -161,7 +161,7 @@ public class Main {
                     };
                     break;
 
-                case 5:
+                case 6:
                     System.out.println("Ending of program...");
                     System.exit(0);
 

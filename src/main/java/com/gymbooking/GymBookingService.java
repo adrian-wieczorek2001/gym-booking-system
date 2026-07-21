@@ -2,16 +2,18 @@ package com.gymbooking;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class GymBookingService {
     private ArrayList<Reservation> reservations;
-    private HashSet<LocalDate> bookedDates;
+    private HashMap<LocalDate, Integer> possibleReservations;
     private int nextId = 1;
+    private static final int MAX_CAPACITY = 20;
 
     public GymBookingService() {
-        this.bookedDates = new HashSet<>();
         this.reservations = new ArrayList<>();
+        this.possibleReservations = new HashMap<>();
     }
 
 
@@ -22,8 +24,9 @@ public class GymBookingService {
      */
     public void addReservation(Member member, LocalDate dateTime) {
 
-        if (bookedDates.contains(dateTime)) {
-            throw new IllegalStateException("This time is already booked");
+        if (possibleReservations.containsKey(dateTime) &&
+                possibleReservations.get(dateTime) >= MAX_CAPACITY) {
+            throw new IllegalStateException("All possible spaces are already booked");
         }
         if (dateTime.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("You cannot make a reservation for a date in the past. " +
@@ -33,7 +36,13 @@ public class GymBookingService {
         Reservation reservation = new Reservation(nextId, member, dateTime);
 
         reservations.add(reservation);
-        bookedDates.add(dateTime);
+
+        if (!possibleReservations.containsKey(dateTime)) {
+            possibleReservations.put(dateTime, 1);
+        } else {
+            possibleReservations.put(dateTime, possibleReservations.get(dateTime) + 1);
+        }
+
         nextId++;
     }
 
@@ -58,8 +67,8 @@ public class GymBookingService {
         for (int i = 0; i < reservations.size(); i++) {
             if (reservations.get(i).getId() == id) {
                 LocalDate date = reservations.get(i).getDateTime();
+                possibleReservations.put(date, possibleReservations.get(date) - 1);
                 reservations.remove(i);
-                bookedDates.remove(date);
                 found = true;
                 break;
             }
