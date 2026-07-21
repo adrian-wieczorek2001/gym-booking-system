@@ -2,12 +2,15 @@ package com.gymbooking;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class GymBookingService {
     private ArrayList<Reservation> reservations;
+    private HashSet<LocalDate> bookedDates;
     private int nextId = 1;
 
     public GymBookingService() {
+        this.bookedDates = new HashSet<>();
         this.reservations = new ArrayList<>();
     }
 
@@ -19,6 +22,9 @@ public class GymBookingService {
      */
     public void addReservation(Member member, LocalDate dateTime) {
 
+        if (bookedDates.contains(dateTime)) {
+            throw new IllegalStateException("This time is already booked");
+        }
         if (dateTime.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("You cannot make a reservation for a date in the past. " +
                     "Please, enter correct date");
@@ -27,6 +33,7 @@ public class GymBookingService {
         Reservation reservation = new Reservation(nextId, member, dateTime);
 
         reservations.add(reservation);
+        bookedDates.add(dateTime);
         nextId++;
     }
 
@@ -50,7 +57,9 @@ public class GymBookingService {
 
         for (int i = 0; i < reservations.size(); i++) {
             if (reservations.get(i).getId() == id) {
+                LocalDate date = reservations.get(i).getDateTime();
                 reservations.remove(i);
+                bookedDates.remove(date);
                 found = true;
                 break;
             }
