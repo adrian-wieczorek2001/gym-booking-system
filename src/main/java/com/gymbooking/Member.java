@@ -3,9 +3,10 @@ package com.gymbooking;
 public class Member {
     private String name;
     private int age;
+    private int  memberId;
     private MembershipType membershipType;
 
-    public Member(String name, int age, MembershipType membershipType) {
+    public Member(int memberId, String name, int age, MembershipType membershipType) {
 
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
@@ -22,7 +23,12 @@ public class Member {
         this.name = name;
         this.age = age;
         this.membershipType = membershipType;
+        this.memberId = memberId;
 
+    }
+
+    public int getMemberId() {
+        return memberId;
     }
 
     public String getName() {

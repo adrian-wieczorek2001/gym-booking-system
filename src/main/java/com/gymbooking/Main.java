@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static Member createMember(Scanner scanner) {
+    private static Member createMember(Scanner scanner, int memberId) {
 
         while (true) {
 
@@ -68,7 +68,7 @@ public class Main {
             scanner.nextLine();
 
             try {
-                return new Member(name, age, membershipType);
+                return new Member(memberId, name, age, membershipType);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Please, try again!");
@@ -83,11 +83,12 @@ public class Main {
         while (true) {
             try {
                 System.out.println("What would you like to do: " +
-                        "\n1. Add reservations" +
-                        "\n2. Show all reservation" +
-                        "\n3. Delete reservation" +
-                        "\n4. Find reservations by member name" +
-                        "\n5. Exit");
+                        "\n1. Register a member" +
+                        "\n2. Add reservations" +
+                        "\n3. Show all reservation" +
+                        "\n4. Delete reservation" +
+                        "\n5. Find reservations by member name" +
+                        "\n6. Exit");
                 choice = scanner.nextInt();
                 scanner.nextLine();
             } catch (InputMismatchException e) {
@@ -99,8 +100,34 @@ public class Main {
             switch (choice) {
 
                 case 1: {
+                    Member member = createMember(scanner, gymBookingService.getNextMemberId());
+                    gymBookingService.registerMember(member);
+                    break;
+                }
 
-                    Member member = createMember(scanner);
+                case 2: {
+
+                    Member member = null;
+
+                    while (true) {
+                        System.out.println("Enter your member id: ");
+
+                        int id = 0;
+
+                        try {
+                            id = scanner.nextInt();
+                            member = gymBookingService.findMemberById(id);
+                            if (member != null) {
+                                break;
+                            } else {
+                                System.out.println("This member doesn't exist");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Your id must be a number. Try again!");
+                        }
+
+                    }
+
 
                     while (true) {
                         LocalDate dateTime = null;
@@ -125,7 +152,7 @@ public class Main {
                     break;
                 }
 
-                case 2:
+                case 3:
                     System.out.println("All reservations: ");
 
                     for (Reservation reservation : gymBookingService.getAllReservations()) {
@@ -134,7 +161,7 @@ public class Main {
 
                     break;
 
-                case 3: {
+                case 4: {
 
                     int id = 0;
 
@@ -152,7 +179,7 @@ public class Main {
                     break;
                 }
 
-                case 4:
+                case 5:
                     System.out.println("Please, enter a member to show list of reservation: ");
                     String memberName = scanner.nextLine();
                     System.out.println("Your reservations: ");

@@ -7,15 +7,37 @@ import java.util.HashSet;
 
 public class GymBookingService {
     private ArrayList<Reservation> reservations;
+    private ArrayList<Member> members;
     private HashMap<LocalDate, Integer> possibleReservations;
     private int nextId = 1;
+    private int nextMemberId = 1;
     private static final int MAX_CAPACITY = 20;
 
     public GymBookingService() {
         this.reservations = new ArrayList<>();
         this.possibleReservations = new HashMap<>();
+        this.members = new ArrayList<>();
     }
 
+    public void registerMember(Member member) {
+        members.add(member);
+        nextMemberId++;
+    }
+
+    public Member findMemberById(int id) {
+
+        for (Member member : members) {
+            if (id == member.getMemberId()) {
+                return member;
+            }
+        }
+
+            return null;
+    }
+
+    public int getNextMemberId() {
+        return nextMemberId;
+    }
 
     /**
      * Adds a reservation to the list with an automatically generated id.
