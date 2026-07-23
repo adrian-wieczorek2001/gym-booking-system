@@ -159,6 +159,11 @@ public class Main {
                         System.out.println(reservation);
                     }
 
+                    System.out.println("Available spaces per date: ");
+                   for (Map.Entry<LocalDate, Integer> entry : gymBookingService.getBookedDates().entrySet()) {
+                       System.out.println(entry.getKey() + " free spaces: " + entry.getValue() );
+                   }
+
                     break;
 
                 case 4: {

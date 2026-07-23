@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class GymBookingService {
     private ArrayList<Reservation> reservations;
@@ -12,6 +13,19 @@ public class GymBookingService {
     private int nextId = 1;
     private int nextMemberId = 1;
     private static final int MAX_CAPACITY = 20;
+
+    public HashMap<LocalDate, Integer> getBookedDates() {
+
+        HashMap<LocalDate, Integer> freeSpaces = new HashMap<>();
+
+        for (Map.Entry<LocalDate, Integer> entry : possibleReservations.entrySet()) {
+            int sum = MAX_CAPACITY - entry.getValue();
+            freeSpaces.put(entry.getKey(), sum);
+        }
+
+        return freeSpaces;
+
+    }
 
     public GymBookingService() {
         this.reservations = new ArrayList<>();
