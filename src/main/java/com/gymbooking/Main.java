@@ -124,10 +124,10 @@ public class Main {
                             }
                         } catch (InputMismatchException e) {
                             System.out.println("Your id must be a number. Try again!");
+                            scanner.nextLine();
                         }
 
                     }
-
 
                     while (true) {
                         LocalDate dateTime = null;
@@ -145,7 +145,7 @@ public class Main {
                         try {
                             gymBookingService.addReservation(member, dateTime);
                             break;
-                        } catch (IllegalArgumentException e) {
+                        } catch (IllegalArgumentException | IllegalStateException e) {
                             System.out.println(e.getMessage());
                         }
                     }
