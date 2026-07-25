@@ -88,7 +88,8 @@ public class Main {
                         "\n3. Show all reservation" +
                         "\n4. Delete reservation" +
                         "\n5. Find reservations by member name" +
-                        "\n6. Exit");
+                        "\n6. Show list of all members" +
+                        "\n7. Exit");
                 choice = scanner.nextInt();
                 scanner.nextLine();
             } catch (InputMismatchException e) {
@@ -160,9 +161,9 @@ public class Main {
                     }
 
                     System.out.println("Available spaces per date: ");
-                   for (Map.Entry<LocalDate, Integer> entry : gymBookingService.getBookedDates().entrySet()) {
-                       System.out.println(entry.getKey() + " free spaces: " + entry.getValue() );
-                   }
+                    for (Map.Entry<LocalDate, Integer> entry : gymBookingService.getBookedDates().entrySet()) {
+                        System.out.println(entry.getKey() + " free spaces: " + entry.getValue());
+                    }
 
                     break;
 
@@ -190,10 +191,22 @@ public class Main {
                     System.out.println("Your reservations: ");
                     for (Reservation reservation : gymBookingService.findReservationsByMember(memberName)) {
                         System.out.println(reservation);
-                    };
+                    }
                     break;
 
-                case 6:
+                case 6: {
+                    System.out.println("List of All Members: ");
+
+                    int i = 0;
+
+                    for (Member member : gymBookingService.getAllMembers()) {
+                        System.out.println(++i + ". " + member);
+                    }
+                    break;
+                }
+
+
+                case 7:
                     System.out.println("Ending of program...");
                     System.exit(0);
 

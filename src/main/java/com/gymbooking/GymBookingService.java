@@ -14,6 +14,12 @@ public class GymBookingService {
     private int nextMemberId = 1;
     private static final int MAX_CAPACITY = 20;
 
+    public GymBookingService() {
+        this.reservations = new ArrayList<>();
+        this.possibleReservations = new HashMap<>();
+        this.members = new ArrayList<>();
+    }
+
     public HashMap<LocalDate, Integer> getBookedDates() {
 
         HashMap<LocalDate, Integer> freeSpaces = new HashMap<>();
@@ -22,15 +28,7 @@ public class GymBookingService {
             int sum = MAX_CAPACITY - entry.getValue();
             freeSpaces.put(entry.getKey(), sum);
         }
-
         return freeSpaces;
-
-    }
-
-    public GymBookingService() {
-        this.reservations = new ArrayList<>();
-        this.possibleReservations = new HashMap<>();
-        this.members = new ArrayList<>();
     }
 
     public void registerMember(Member member) {
@@ -51,6 +49,10 @@ public class GymBookingService {
 
     public int getNextMemberId() {
         return nextMemberId;
+    }
+
+    public ArrayList<Member> getAllMembers() {
+        return members;
     }
 
     /**
