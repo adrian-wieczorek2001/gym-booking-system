@@ -169,18 +169,22 @@ public class Main {
 
                 case 4: {
 
-                    int id = 0;
+                    int id = -1;
 
                     System.out.println("Enter a ID of reservation: ");
-                    while (id == 0) {
+                    while (true) {
                         try {
-                            id = scanner.nextInt();
+                           id = scanner.nextInt();
+                           if (id > 0) {
+                               break;
+                           } else {
+                               System.out.println("Id should be a positive number");
+                           }
                         } catch (InputMismatchException e) {
                             System.out.println("It's not correct form for ID. Please, use number!");
                             scanner.nextLine();
                         }
                     }
-
                     gymBookingService.removeReservation(id);
                     break;
                 }
