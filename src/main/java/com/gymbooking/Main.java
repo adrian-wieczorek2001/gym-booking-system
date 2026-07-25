@@ -185,7 +185,12 @@ public class Main {
                             scanner.nextLine();
                         }
                     }
-                    gymBookingService.removeReservation(id);
+
+                    try {
+                        gymBookingService.removeReservation(id);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
 
