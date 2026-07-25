@@ -43,7 +43,6 @@ public class GymBookingService {
                 return member;
             }
         }
-
             return null;
     }
 
@@ -100,6 +99,9 @@ public class GymBookingService {
      */
     public void removeReservation(int id) {
 
+        if (id <= 0) {
+            throw new IllegalArgumentException("Id cannot be less than 0 or equal 0");
+        }
         boolean found = false;
 
         for (int i = 0; i < reservations.size(); i++) {
@@ -113,7 +115,7 @@ public class GymBookingService {
         }
 
         if (!found) {
-            System.out.println("Id not found");
+            throw new IllegalArgumentException("Id not found");
         }
     }
 
